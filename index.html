@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrigar NGA - Tienda Online</title>
+  <style>
+    body { margin:0; font-family:Arial,sans-serif; background:#f5f5f5; color:#333; }
+    header { background:#0d8b0d; padding:20px; display:flex; flex-direction:column; align-items:center; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+    .logo-container { display:flex; align-items:center; gap:15px; }
+    header img { max-height:80px; border-radius:50%; object-fit:cover; }
+    header h1 { color:white; font-size:28px; margin:0; font-weight:bold; }
+    .buscador { width:100%; max-width:600px; margin-top:15px; }
+    .buscador input { width:100%; padding:12px 15px; font-size:16px; border:none; border-radius:25px; outline:none; box-shadow:0 2px 5px rgba(0,0,0,0.15); }
+    main { padding:20px; }
+    .productos { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px; }
+    .producto { background:white; border-radius:10px; padding:15px; text-align:center; transition:transform 0.2s; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    .producto:hover { transform:scale(1.03); }
+    .producto img { max-width:100%; height:180px; object-fit:cover; border-radius:10px; margin-bottom:10px; }
+    .producto h3 { font-size:18px; margin:10px 0; }
+    .producto p { font-size:16px; font-weight:bold; color:#2d2d2d; }
+    .btn-comprar { display:inline-block; margin-top:10px; padding:10px 15px; background:#3483fa; color:white; border-radius:5px; text-decoration:none; transition:background 0.2s; }
+    .btn-comprar:hover { background:#2968c8; }
+    .info-adicional { margin-top:15px; text-align:center; font-size:14px; color:#555; }
+    #paginacion { text-align:center; margin-top:20px; }
+    #paginacion button { padding:5px 10px; margin:0 3px; border:1px solid #3483fa; background:white; color:#3483fa; border-radius:3px; cursor:pointer; }
+    #paginacion button.active, #paginacion button:hover { background:#3483fa; color:white; }
+    footer { text-align:center; padding:15px; background:#333; color:white; margin-top:20px; }
+    @media(max-width:768px){ .productos{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));} .producto img{height:120px;} header h1{font-size:22px;} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="img/logo.png" alt="Logo Nutrigar NGA">
+      <h1>NUTRIGAR NGA</h1>
+    </div>
+    <div class="buscador">
+      <input type="text" id="searchInput" placeholder="Buscar productos...">
+    </div>
+  </header>
+
+  <main>
+    <div id="products" class="productos"></div>
+    <div id="paginacion"></div>
+    <div class="info-adicional">
+      <p>Abierto de Lunes a Sábado</p>
+      <p>📍Avenida Juana Manuela Gorriti 159 (Entrada del Barrio Mundial) | Rosario de la Frontera-Salta</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Nutrigar NGA - Todos los derechos reservados</p>
+  </footer>
+
+  <script>
+    const whatsappNumber = "123456789"; // reemplazá por tu número real
+    const productsContainer = document.getElementById("products");
+    const pagContainer = document.getElementById("paginacion");
+    const searchInput = document.getElementById("searchInput");
+
+    let productosGlobal = [];
+    let productosPorPagina = 10;
+    let paginaActual = 1;
+
+    // Cargar productos desde JSON
+    fetch("products.json")
+      .then(res => res.json())
+      .then(productos => {
+        productosGlobal = productos;
+        mostrarProductosPagina(paginaActual);
+      })
+      .catch(err => console.error("Error cargando productos:", err));
+
+    function mostrarProductosPagina(pagina) {
+      const filtro = searchInput.value.toLowerCase();
+      const filtrados = productosGlobal.filter(p => p.nombre.toLowerCase().includes(filtro));
+
+      const inicio = (pagina-1)*productosPorPagina;
+      const fin = inicio+productosPorPagina;
+      const productosPagina = filtrados.slice(inicio,fin);
+
+      productsContainer.innerHTML = "";
+      productosPagina.forEach(producto => {
+        const div = document.createElement("div");
+        div.classList.add("producto");
+        div.innerHTML = `
+          <img src="${producto.imagen}" alt="${producto.nombre}">
+          <h3>${producto.nombre}</h3>
+          <p>$${producto.precio}</p>
+          <a href="https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hola, quiero " + producto.nombre)}" target="_blank" class="btn-comprar">Comprar</a>
+        `;
+        productsContainer.appendChild(div);
+      });
+
+      mostrarPaginacion(filtrados.length);
+    }
+
+    function mostrarPaginacion(totalProductos) {
+      const totalPaginas = Math.ceil(totalProductos/productosPorPagina);
+      pagContainer.innerHTML = "";
+
+      for(let i=1;i<=totalPaginas;i++){
+        const btn = document.createElement("button");
+        btn.textContent=i;
+        if(i===paginaActual) btn.classList.add("active");
+        btn.addEventListener("click",()=>{ paginaActual=i; mostrarProductosPagina(paginaActual); });
+        pagContainer.appendChild(btn);
+      }
+    }
+
+    searchInput.addEventListener("input",()=>{ paginaActual=1; mostrarProductosPagina(paginaActual); });
+  </script>
+</body>
+</html>

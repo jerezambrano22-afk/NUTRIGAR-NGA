@@ -1,0 +1,71 @@
+[
+  {
+    "nombre": "Alimento balanceado perro 20kg",
+    "precio": 15900,
+    "imagen": "img/perro.jpg"
+  },
+  {
+    "nombre": "Alimento gato premium 10kg",
+    "precio": 12500,
+    "imagen": "img/gato.jpg"
+  },
+  {
+    "nombre": "Shampoo mascotas",
+    "precio": 2000,
+    "imagen": "img/shampoos.jpg"
+  } ,
+  { 
+    "nombre": "Shampoo",
+    "precio": 3200,
+    "imagen": "img/shampoo.jpg"
+  },
+   { 
+    "nombre": "dentrfico",
+    "precio": 3000,
+    "imagen": "img/dentrifico.jpg"
+  },
+{ 
+    "nombre": "cepillo de  dientes",
+    "precio": 4200,
+    "imagen": "img/cepillod.jpg"
+  },
+  { 
+    "nombre": "lavandina ayudin",
+    "precio": 6200,
+    "imagen": "img/lav.jpg"
+  }
+,
+  { 
+    "nombre": "maiz pisingallo",
+    "precio": 4900,
+    "imagen": "img/maiz.jpg"
+  }
+  ,
+  { 
+    "nombre": "alcohol en gel",
+    "precio": 5000,
+    "imagen": "img/al.jpg"
+  }
+    ,
+  { 
+    "nombre": "crema skala",
+    "precio": 4200,
+    "imagen": "img/sk.jpg"
+  }
+ ,
+  { 
+    "nombre": "crema",
+    "precio": 4200,
+    "imagen": "img/c.jpg"
+  }
+
+
+
+
+
+
+
+
+]  
+
+
