@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jerezambrano22-afk.github.io/NUTRIGAR-NGA/sitemap.xml
